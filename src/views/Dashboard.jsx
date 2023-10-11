@@ -1,11 +1,11 @@
-import { Button, SafeAreaView, StyleSheet, Text, View, Image, Platform, useWindowDimensions, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable, useWindowDimensions, SafeAreaView } from 'react-native'
 import React from 'react'
 import Progress from '../components/Progress'
 
-const Home = ({ navigation }) => {
-    const { width, height } = useWindowDimensions()
+const Dashboard = () => {
+    const { height, width } = useWindowDimensions()
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView>
             <View style={styles.dashboard}>
                 <View style={styles.profile}>
                     <View style={styles.profileDetails}>
@@ -26,21 +26,20 @@ const Home = ({ navigation }) => {
                     {/* text */}
                     <Text style={styles.enrollmentText}>Enrollment Progress</Text>
                 </View>
+                {/* NAVIGATE TO NEXT PAGE HERE */}
                 <Pressable style={styles.challenges} onPress={() => navigation.navigate('Start')}>
                     <View style={styles.challengesTitle}>
                         <Text style={{ fontWeight: 'bold', color: '#36454F' }}>Health Challenges </Text>
                         <Text style={{ color: '#36454F' }}>Not Started </Text>
                     </View>
-                    <View>
-                        <Progress width={width} style={styles.progress} />
-                    </View>
+                    <Progress width={width} style={styles.progress} />
                 </Pressable>
             </View>
         </SafeAreaView>
     )
 }
 
-export default Home
+export default Dashboard
 
 const styles = StyleSheet.create({
     container: {
@@ -100,7 +99,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     progress: {
-        paddingVertical: 20
+        paddingVertical: 10,
     }
-
 })

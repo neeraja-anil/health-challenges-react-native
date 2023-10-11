@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 // Navigation
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 //icons
 import HomeSvg from '../../assets/_Home-tab.svg'
 import CareteamSvg from '../../assets/_Careteam-tab.svg'
@@ -11,6 +12,18 @@ import ChatSvg from '../../assets/_Chat-tab.svg'
 //SCREENS
 import Home from '../../src/views/Home';
 import Tasks from '../../src/views/Tasks';
+import HCStart from './HCStart'
+
+
+const StackNav = () => {
+    const Stack = createNativeStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }} >
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Start" component={HCStart} />
+        </Stack.Navigator>
+    )
+}
 
 const BottomNav = () => {
 
@@ -20,7 +33,7 @@ const BottomNav = () => {
             return <CareteamSvg />
         } else if (routeName === 'Tasks') {
             return <TasksSvg />
-        } else if (routeName === 'Home') {
+        } else if (routeName === 'HomeScreen') {
             return <HomeSvg />
         } else if (routeName === 'Meds') {
             return <MedSvg />
@@ -31,7 +44,7 @@ const BottomNav = () => {
 
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="HomeScreen"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     const source = getTabBarIconSource(route.name, focused);
@@ -40,11 +53,12 @@ const BottomNav = () => {
                 tabBarActiveBackgroundColor: '#DCFCFF',
                 tabBarInactiveTintColor: 'gray',
                 tabBarShowLabel: false,
+                headerShown: false
             })}
         >
             <Tab.Screen name="Careteam" component={Tasks} />
             <Tab.Screen name="Tasks" component={Tasks} />
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="HomeScreen" component={StackNav} />
             <Tab.Screen name="Meds" component={Tasks} />
             <Tab.Screen name="Chat" component={Tasks} />
         </Tab.Navigator>
