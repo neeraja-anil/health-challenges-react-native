@@ -12,7 +12,7 @@ import ChatSvg from '../../assets/_Chat-tab.svg'
 //SCREENS
 import Home from '../../src/views/Home';
 import Tasks from '../../src/views/Tasks';
-import HCStart from './HCStart'
+import HCStart from '../views/HCStart'
 
 
 const StackNav = () => {

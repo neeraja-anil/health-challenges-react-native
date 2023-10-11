@@ -6,7 +6,7 @@ import BottomNav from './src/components/BottomNav';
 export default function App() {
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor='skyblue' />
+      <StatusBar backgroundColor='blue' />
       <BottomNav />
     </NavigationContainer >
   );
