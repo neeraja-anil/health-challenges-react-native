@@ -20,6 +20,8 @@ const Challenges = ({ navigation }) => {
     const [confirmed, setConfirmed] = useState(false);
     const objLength = Object.keys(checkedItems).length
     const { setCompleteItems, setIncompleteItems, incompleteItems, completedItems } = useContext(GlobalContext)
+    const incompleteKeys = Object.keys(incompleteItems)
+    const incompleteLength = Object.keys(incompleteItems).length
 
 
     const handleCheckboxChange = (item, isChecked) => {
@@ -32,10 +34,21 @@ const Challenges = ({ navigation }) => {
             }
             return updatedState;
         });
+
+        const updatedState = { ...incompleteItems };
+        const itemId = item.id
+        const stringedItemId = itemId.toString()
+
+        if (incompleteKeys.includes(stringedItemId)) {
+            delete incompleteItems[itemId]; // Item is already in incomplete state, remove from state
+        } else {
+            incompleteItems[itemId] = item; // Item is checked
+        }
+        setIncompleteItems(incompleteItems)
     };
 
     const handleSaveAndExit = () => {
-        const mergedItems = { ...incompleteItems, ...checkedItems };
+        const mergedItems = { ...incompleteItems };
         setIncompleteItems(mergedItems)
         navigation.navigate('Home')
     }
@@ -84,8 +97,8 @@ const Challenges = ({ navigation }) => {
                 <Pressable style={styles.button} onPress={handleSaveAndExit}>
                     <Text style={styles.text}>Save & Exit</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={handleClickNext} disabled={objLength === 0}>
-                    <Text style={[styles.text, { color: objLength == 0 ? '#d3d3d3' : 'black' },]}> {confirmed ? 'Confirm' : 'Next'}</Text>
+                <Pressable style={styles.button} onPress={handleClickNext} disabled={objLength === 0 && incompleteLength === 0}>
+                    <Text style={[styles.text, { color: objLength == 0 && incompleteLength == 0 ? '#d3d3d3' : 'black' },]}> {confirmed ? 'Confirm' : 'Next'}</Text>
                 </Pressable>
             </View>
         </SafeAreaView>

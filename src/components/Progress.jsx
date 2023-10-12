@@ -7,13 +7,13 @@ const Progress = ({ width, style }) => {
 
     const { incompleteItems, completedItems } = useContext(GlobalContext)
     const incompleteList = Object.keys(incompleteItems).length || 0
-    const completeList = Object.keys(completedItems).length
+    const completeList = Object.keys(completedItems).length || 0
 
     let progress
     if (completeList) {
         progress = 10
     } else {
-        progress = incompleteList / 10
+        progress = incompleteList / 11
     }
 
     return (
