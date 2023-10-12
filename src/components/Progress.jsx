@@ -1,22 +1,26 @@
 import { StyleSheet, Text, View, Button } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import ProgressBar from 'react-native-progress/Bar';
+import { GlobalContext } from '../context';
 
 const Progress = ({ width, style }) => {
-    const [progress, setProgress] = useState(0);
 
-    const handlePress = () => {
-        setProgress((prevProgress) => prevProgress + 0.1);
-    };
+    const { incompleteItems, completedItems } = useContext(GlobalContext)
+    const incompleteList = Object.keys(incompleteItems).length || 0
+    const completeList = Object.keys(completedItems).length
+
+    let progress
+    if (completeList) {
+        progress = 10
+    } else {
+        progress = incompleteList / 10
+    }
+
     return (
         <View style={style}>
-            <ProgressBar progress={0.1} width={width - 70} borderWidth={0} unfilledColor='#E5E4E2' />
-            {/* <Button onPress={handlePress} title="Increase" /> */}
-            {/* <Text>Progress: {(progress * 100).toFixed(0)}%</Text> */}
+            <ProgressBar progress={progress} width={width - 70} borderWidth={0} unfilledColor='#E5E4E2' />
         </View>
     )
 }
 
 export default Progress
-
-const styles = StyleSheet.create({})

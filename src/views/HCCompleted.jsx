@@ -1,30 +1,30 @@
 import { SafeAreaView, StyleSheet, Text, View, Image, Pressable } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
+import { GlobalContext } from '../context'
 
-const HCStart = ({ navigation }) => {
+const HCCompleted = ({ navigation, route }) => {
 
-    // HIDE BOTTOM NAV
-    useEffect(() => {
-        navigation.getParent()?.setOptions({
-            tabBarStyle: {
-                display: "none"
-            }
-        });
-        return () => navigation.getParent()?.setOptions({
-            tabBarStyle: undefined
-        });
-    }, [navigation]);
+    const { setCompleteItems, setIncompleteItems, incompleteItems, completedItems } = useContext(GlobalContext)
+    const checkedItems = route?.params?.checkedItems
+    const handleSaveAndExit = () => {
+        setIncompleteItems(checkedItems)
+        navigation.navigate('Home')
+    }
+    const handleComplete = () => {
+        setCompleteItems({ ...incompleteItems, ...checkedItems })
+        navigation.navigate('Home')
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View >
                 <Image source={require('../../assets/Group375.png')} style={styles.image} />
                 <View style={styles.buttons}>
-                    <Pressable style={styles.button} onPress={() => navigation.navigate('Home')}>
-                        <Text style={styles.text}>Exit</Text>
+                    <Pressable style={styles.button} onPress={handleSaveAndExit}>
+                        <Text style={styles.text}>Save & Exit</Text>
                     </Pressable>
-                    <Pressable style={styles.button} onPress={() => navigation.navigate('Challenges')}>
-                        <Text style={styles.text}>Start</Text>
+                    <Pressable style={styles.button} onPress={handleComplete}>
+                        <Text style={styles.text}>Complete</Text>
                     </Pressable>
                 </View>
             </View>
@@ -32,7 +32,7 @@ const HCStart = ({ navigation }) => {
     )
 }
 
-export default HCStart
+export default HCCompleted
 
 const styles = StyleSheet.create({
     container: {
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 12,
-        paddingHorizontal: 60,
+        paddingHorizontal: 50,
         borderRadius: 10,
         elevation: 3,
         backgroundColor: 'white',

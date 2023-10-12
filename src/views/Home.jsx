@@ -1,40 +1,38 @@
 import { Button, SafeAreaView, StyleSheet, Text, View, Image, Platform, useWindowDimensions, Pressable } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Progress from '../components/Progress'
+import { GlobalContext } from '../context'
+import Profile from '../components/Profile'
 
 const Home = ({ navigation }) => {
-    const { width, height } = useWindowDimensions()
+    const { width } = useWindowDimensions()
+    const { incompleteItems, completedItems, setIncompleteItems } = useContext(GlobalContext)
+    const isCompleted = !!Object.keys(completedItems).length
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.dashboard}>
-                <View style={styles.profile}>
-                    <View style={styles.profileDetails}>
-                        {/* profile image */}
-                        <Image source={require('../../assets/Profile-icon.png')} style={styles.profileImage} />
-                        {/* details */}
-                        <View style={styles.profileText}>
-                            <Text style={{ fontWeight: 'bold' }}>Betty Smith</Text>
-                            <Text style={{ color: 'gray' }}>bettysmith@gmail.com</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <Image source={require('../../assets/healthicons.png')} />
-                    </View>
-                </View>
+                <Profile />
                 <View style={styles.seperator} />
-                <View style={styles.enrollment}>
-                    {/* text */}
-                    <Text style={styles.enrollmentText}>Enrollment Progress</Text>
+                <View>
+                    <View style={styles.enrollment}>
+                        <Text style={styles.enrollmentText}>Enrollment Progress</Text>
+                    </View>
+                    <Pressable style={styles.challengesBox} onPress={() => navigation.navigate('Start')}>
+                        <View style={styles.challengesTitle}>
+                            <Text style={{ fontWeight: 'bold', color: '#36454F' }}>Health Challenges </Text>
+                            <Text style={{ color: '#36454F' }}>{isCompleted ? 'Completed' : 'Not Started'} </Text>
+                        </View>
+                        <View>
+                            <Progress width={width} style={styles.progress} />
+                        </View>
+                    </Pressable>
+                    {isCompleted && (
+                        <View style={{ marginTop: 20 }}>
+                            <Button title='Submit' color='#367588' />
+                        </View>
+                    )}
                 </View>
-                <Pressable style={styles.challenges} onPress={() => navigation.navigate('Start')}>
-                    <View style={styles.challengesTitle}>
-                        <Text style={{ fontWeight: 'bold', color: '#36454F' }}>Health Challenges </Text>
-                        <Text style={{ color: '#36454F' }}>Not Started </Text>
-                    </View>
-                    <View>
-                        <Progress width={width} style={styles.progress} />
-                    </View>
-                </Pressable>
             </View>
         </SafeAreaView>
     )
@@ -51,21 +49,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginHorizontal: 16,
     },
-    profile: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20
-    },
-    profileDetails: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    profileImage: {
-        borderRadius: 50
-    },
-    profileText: {
-        paddingHorizontal: 10,
-    },
     seperator: {
         borderBottomColor: '#D3D3D3',
         borderBottomWidth: StyleSheet.hairlineWidth,
@@ -77,7 +60,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold'
     },
-    challenges: {
+    challengesBox: {
         backgroundColor: 'white',
         padding: 16,
         borderWidth: 1,

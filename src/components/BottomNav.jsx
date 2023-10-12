@@ -12,7 +12,9 @@ import ChatSvg from '../../assets/_Chat-tab.svg'
 //SCREENS
 import Home from '../../src/views/Home';
 import Tasks from '../../src/views/Tasks';
-import HCStart from '../views/HCStart'
+import HCStart from '../views/HCStart';
+import Challenges from '../views/Challenges';
+import HCCompleted from '../views/HCCompleted'
 
 
 const StackNav = () => {
@@ -21,6 +23,8 @@ const StackNav = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }} >
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Start" component={HCStart} />
+            <Stack.Screen name="Challenges" component={Challenges} />
+            <Stack.Screen name="Completed" component={HCCompleted} />
         </Stack.Navigator>
     )
 }
