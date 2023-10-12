@@ -7,7 +7,8 @@ const HCCompleted = ({ navigation, route }) => {
     const { setCompleteItems, setIncompleteItems, incompleteItems, completedItems } = useContext(GlobalContext)
     const checkedItems = route?.params?.checkedItems
     const handleSaveAndExit = () => {
-        setIncompleteItems(checkedItems)
+        const mergedItems = { ...incompleteItems, ...checkedItems };
+        setIncompleteItems(mergedItems)
         navigation.navigate('Home')
     }
     const handleComplete = () => {

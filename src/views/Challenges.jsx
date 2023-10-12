@@ -21,11 +21,11 @@ const Challenges = ({ navigation }) => {
     const objLength = Object.keys(checkedItems).length
     const { setCompleteItems, setIncompleteItems, incompleteItems, completedItems } = useContext(GlobalContext)
 
-    const handleCheckboxChange = (item, isChecked, isIncomplete, isCompleted) => {
 
+    const handleCheckboxChange = (item, isChecked) => {
         setCheckedItems(prevState => {
             const updatedState = { ...prevState };
-            if (isChecked || isIncomplete || isCompleted) {
+            if (isChecked) {
                 updatedState[item.id] = item; // Item is checked
             } else {
                 delete updatedState[item.id]; // Item is unchecked, remove from state
@@ -35,7 +35,8 @@ const Challenges = ({ navigation }) => {
     };
 
     const handleSaveAndExit = () => {
-        setIncompleteItems(checkedItems)
+        const mergedItems = { ...incompleteItems, ...checkedItems };
+        setIncompleteItems(mergedItems)
         navigation.navigate('Home')
     }
 
@@ -68,8 +69,8 @@ const Challenges = ({ navigation }) => {
                             innerIconStyle={{ borderWidth: 1, borderColor: "blue", borderRadius: 5 }}
                             textStyle={{ textDecorationLine: "none", }}
                             style={{ flex: 1, marginVertical: 3, marginLeft: 10, marginTop: 10 }}
-                            isChecked={checkedItems[item.id] || incompleteItems[item.id] || completedItems[item.id]}
-                            onPress={() => handleCheckboxChange(item, !checkedItems[item.id], !incompleteItems[item.id], !completedItems[item.id])}
+                            isChecked={checkedItems[item.id] || incompleteItems[item.id] || completedItems[item.id] || false}
+                            onPress={() => handleCheckboxChange(item, !checkedItems[item.id])}
                         />}
                     keyExtractor={challenge => challenge.id}
                 />
