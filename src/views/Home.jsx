@@ -8,6 +8,7 @@ const Home = ({ navigation }) => {
     const { width } = useWindowDimensions()
     const { incompleteItems, completedItems, setIncompleteItems } = useContext(GlobalContext)
     const isCompleted = !!Object.keys(completedItems).length
+    const isInCompleted = !!Object.keys(incompleteItems).length
 
     return (
         <SafeAreaView style={styles.container}>
@@ -21,7 +22,7 @@ const Home = ({ navigation }) => {
                     <Pressable style={styles.challengesBox} onPress={() => navigation.navigate('Start')}>
                         <View style={styles.challengesTitle}>
                             <Text style={{ fontWeight: 'bold', color: '#36454F' }}>Health Challenges </Text>
-                            <Text style={{ color: '#36454F' }}>{isCompleted ? 'Completed' : 'Not Started'} </Text>
+                            <Text style={{ color: '#36454F' }}>{isCompleted ? 'Completed' : isInCompleted ? 'Not Completed' : 'Not Started'} </Text>
                         </View>
                         <View>
                             <Progress width={width} style={styles.progress} />

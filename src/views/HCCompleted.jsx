@@ -8,7 +8,7 @@ const HCCompleted = ({ navigation, route }) => {
     const checkedItems = route?.params?.checkedItems
 
     const handleSaveAndExit = () => {
-        const mergedItems = { ...incompleteItems, ...checkedItems };
+        const mergedItems = { ...incompleteItems };
         setIncompleteItems(mergedItems)
         navigation.navigate('Home')
     }
